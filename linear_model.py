@@ -39,6 +39,11 @@ def _get_cost(theta, featurs, lable):
 
 
 def gradient_descent(number, theta, featurs, lable, learn_rate):
+    """
+    训练指定次数，返回损失函数和每一步位置
+    number：训练次数
+    theta：初始theta
+    """
     cost_list = list()
     theta_list = list()
     for _ in number:
@@ -47,15 +52,3 @@ def gradient_descent(number, theta, featurs, lable, learn_rate):
         cost_list.append(cost)
         theta_list.append(theta)
     return cost_list, theta_list
-
-
-
-
-if __name__ == "__main__":
-    theta = np.array([1, 1])
-    x = np.array([[1, 2], [1, 2]])
-    y = np.array([0, 0])
-    learn_ratio = 0.1
-    for _ in range(20):
-        print(get_cost(theta, x, y))
-        theta = get_theta(theta, x, y, learn_ratio)

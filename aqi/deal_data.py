@@ -6,7 +6,7 @@
 import pandas as pd
 import numpy as np
 
-def read_aqi(path):
+def read_data(path):
     # 读取数据
     aqi_data = pd.read_csv(path, encoding='utf-8')
     # 标签, 转换为n行1列的数据
