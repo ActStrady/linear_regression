@@ -5,9 +5,6 @@
 import pandas as pd
 import numpy as np
 
-label_name = 'AQI'
-features_name = ['PM2.5', 'PM10', 'CO', 'No2', 'So2', 'O3']
-
 
 def read_data(path, features_name, label_name):
     """
