@@ -2,8 +2,8 @@
 处理数据：标准化，读取数据，拆分数据
 """
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 def read_data(path, features_name, label_name):
@@ -21,15 +21,17 @@ def read_data(path, features_name, label_name):
     return features, label
 
 
-def standardized(features):
-    '''
-    标准化标签
-    '''
-    # 标准化，最大最小值标准化
-    features = (features - np.min(features)) / (np.max(features) - np.min(features))
-    # 标准化, 方差标准化
-    # features = (features - np.mean(features)) / np.std(features)
-    return features
+def standardized(data):
+    """
+    标准化标签,
+    """
+    # 最大最小值标准化
+    # standardized_data = (data - np.min(data)) / (np.max(data) - np.min(data))
+    # 方差标准化
+    # standardized_data = (data - np.mean(data)) / np.std(data)
+    # lg 标准化
+    standardized_data = np.log(data)
+    return standardized_data
 
 
 def break_up(features, label, train_proportion, verification_proportion):
@@ -43,12 +45,12 @@ def break_up(features, label, train_proportion, verification_proportion):
     train_rows = int(rows * train_proportion)
     verification_rows = int(rows * verification_proportion)
     # 训练数据
-    train_featurs = features[:train_rows]
-    train_lable = label[:train_rows]
+    train_feature = features[:train_rows]
+    train_label = label[:train_rows]
     # 验证数据
-    verification_featurs = features[train_rows:train_rows + verification_rows]
-    verification_lable = label[train_rows:train_rows + verification_rows]
+    verification_feature = features[train_rows:train_rows + verification_rows]
+    verification_label = label[train_rows:train_rows + verification_rows]
     # 测试数据
-    test_featurs = features[verification_lable:]
-    test_lable = label[verification_lable:]
-    return (train_featurs, train_lable), (verification_featurs, verification_lable), (test_featurs, test_lable)
+    test_feature = features[verification_rows:]
+    test_label = label[verification_rows:]
+    return (train_feature, train_label), (verification_feature, verification_label), (test_feature, test_label)
