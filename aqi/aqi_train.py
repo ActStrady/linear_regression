@@ -18,18 +18,15 @@ def _deal_aqi_data():
     return deal_data.break_up(features, label, 0.6, 0.3)
 
 
-# TODO 模型训练和验证以及预测的后续整合
 # 训练模型
-def theta_aqi(path, feature, label):
+def theta_aqi():
+    path = 'theta.txt'
+    aqi_data = _deal_aqi_data()
     # 初始theta
     theta = np.zeros((6, 1))
-    # 训练次数
-    number = 300
     # 学习率
     learn_rate = 0.00001
-    # 训练得出损失函数值
-    cost_list = linear_model.gradient_descent(path, number, theta, feature, label, learn_rate)
-    return cost_list
+    return linear_model.gradient_descent(path, theta, aqi_data, learn_rate)
 
 
 def get_aqi_value(feature):
@@ -42,17 +39,16 @@ def get_aqi_value(feature):
     feature = np.array(feature)
     # 标准化处理
     feature = deal_data.standardized(feature)
+    # 从文件中读取训练后的theta
     with open('theta.txt', 'r') as f:
         theta = np.array([float(line) for line in f.readlines()]).reshape(6, 1)
     return np.dot(feature, theta)
 
 
 if __name__ == '__main__':
-    aqi_data = _deal_aqi_data()
-    path = 'theta.txt'
     # 训练数据
-    train_feature, train_label = aqi_data[0]
-    theta_aqi(path, train_feature, train_label)
+    cost_lists = theta_aqi()
+    show.show_cost(cost_lists)
     # 预测
-    # aqi = linear_model.get_aqi_value([20, 46, 8, 37, 0.51, 75], theta)
-    # print(aqi)
+    aqi = get_aqi_value([48, 94, 14, 37, 0.75, 133])
+    print(aqi)
